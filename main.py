@@ -20,7 +20,7 @@ app.add_middleware(
 )
 
 # Dataset Path
-dataset_path = os.path.join(os.getcwd(), 'public', 'all_hadiths_clean.csv')
+dataset_path = os.path.join(os.getcwd(), "public",'all_hadiths_clean.csv')
 
 # Data Loading and Preprocessing
 data = pd.read_csv(dataset_path)
@@ -52,13 +52,22 @@ def get_similar_hadees(query, tfidf_matrix, tfidf_vectorizer, top_n=50):
     similar_hadees = data.iloc[similar_hadees_indices][['hadith_no', 'text_en', 'source']]
     return similar_hadees, similar_hadees_scores
 
-# Routes
 @app.post("/get_similar_hadees")
 async def simple_post(query: Query):
     try:
-        if not query.query:
-            raise HTTPException(status_code=400, detail="Query is required.")
+        # Load CSV dynamically
+        dataset_path = os.path.join(os.getcwd(), 'public', 'all_hadiths_clean.csv')
+        data = pd.read_csv(dataset_path)
         
+        # Preprocess
+        data['clean_text'] = data['text_en'].apply(preprocess_text)
+        data = data.dropna(subset=['clean_text']).reset_index(drop=True)
+        
+        # Vectorize
+        tfidf_vectorizer = TfidfVectorizer()
+        tfidf_matrix = tfidf_vectorizer.fit_transform(data['clean_text'])
+
+        # Process Query
         similar_hadees, similar_hadees_scores = get_similar_hadees(query.query, tfidf_matrix, tfidf_vectorizer)
         result = []
         for _, row in similar_hadees.iterrows():
@@ -73,6 +82,7 @@ async def simple_post(query: Query):
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
 
 @app.get("/getresult")
 async def get_result():
