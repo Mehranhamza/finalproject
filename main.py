@@ -20,7 +20,7 @@ app.add_middleware(
 )
 
 # Dataset Path
-dataset_path = os.path.join(os.path.dirname(__file__), 'all_hadiths_clean.csv')
+dataset_path = os.path.join(os.getcwd(), 'public', 'all_hadiths_clean.csv')
 
 # Data Loading and Preprocessing
 data = pd.read_csv(dataset_path)
