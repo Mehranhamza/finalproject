@@ -20,7 +20,7 @@ app.add_middleware(
 )
 
 # CSV URL
-CSV_URL = "https://raw.githubusercontent.com/Mehranhamza/ai-model/main/all_hadiths_clean.csv"
+CSV_URL = "https://drive.google.com/uc?export=download&id=1Sa8lOCX-kjgERRIguyFjcaV1ftTJRfl9"
 
 # Load and Preprocess Data
 def load_data():
@@ -51,7 +51,7 @@ class Query(BaseModel):
     query: str
 
 # Utility Function
-def get_similar_hadees(query, tfidf_matrix, tfidf_vectorizer, top_n=50):
+def get_similar_hadees(query, tfidf_matrix, tfidf_vectorizer, top_n=10):
     query_vector = tfidf_vectorizer.transform([preprocess_text(query)])
     cosine_similarities = cosine_similarity(query_vector, tfidf_matrix).flatten()
     similar_hadees_indices = cosine_similarities.argsort()[:-top_n-1:-1]
