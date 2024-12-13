@@ -1,20 +1,7 @@
 {
   "functions": {
     "api/**": {
-      "excludeFiles": [
-        "**/__pycache__/**",
-        "**/*.pyc",
-        "*.csv",
-        ".env",
-        ".vercelignore",
-        "tests/**",
-        "docs/**",
-        "node_modules/**",
-        ".next/**",
-        "*.cache/**",
-        "app/**",
-        "public/**"
-      ]
+      "excludeFiles": "**/{__pycache__,*.pyc,*.csv,.env,tests,docs,.next,node_modules,*.cache,public,app}/**"
     }
   }
 }
