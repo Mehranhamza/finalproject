@@ -1,15 +1,20 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "main.py",
-      "use": "@vercel/python"
+  "functions": {
+    "api/**": {
+      "excludeFiles": [
+        "**/__pycache__/**",
+        "**/*.pyc",
+        "*.csv",
+        ".env",
+        ".vercelignore",
+        "tests/**",
+        "docs/**",
+        "node_modules/**",
+        ".next/**",
+        "*.cache/**",
+        "app/**",
+        "public/**"
+      ]
     }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "main.py"
-    }
-  ]
+  }
 }
